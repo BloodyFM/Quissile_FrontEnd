@@ -1,6 +1,7 @@
 import { FormEvent, useContext, useState } from "react";
 import QuestionInput from "../quiz/QuizBuilder/QuestionInput";
 import { Question, QuizContext } from "../../App";
+import QuestionItem from "./QuestionItem";
 
 const QuestionPage: React.FC = () => {
     const { questions, setQuestions } = useContext(QuizContext);
@@ -10,13 +11,25 @@ const QuestionPage: React.FC = () => {
         event.preventDefault();
 
         const newQuestion: Question = {
-            id: 1,
+            id: Math.max(...questions.map((x) => x.id)) + 1,
             text: question,
             alternatives: [],
         };
 
         setQuestions([...questions, newQuestion]);
         setQuestion("");
+    };
+
+    const deleteQuestionById = (id: number) => {
+        const newQuestions = questions.filter((q) => q.id !== id);
+        setQuestions([...newQuestions]);
+    };
+
+    const saveQuestion = (q: Question) => {
+        const index = questions.findIndex((x) => x.id === q.id);
+        const newQuestions = [...questions];
+        newQuestions[index] = { ...q };
+        setQuestions([...newQuestions]);
     };
 
     return (
@@ -28,10 +41,13 @@ const QuestionPage: React.FC = () => {
                 addQuestionHandler={addQuestionHandler}
             />
             <ul className="list-group m-3">
-                {questions.map((q, i) => (
-                    <li className="list-group-item" key={i}>
-                        {q.text}
-                    </li>
+                {questions.map((q) => (
+                    <QuestionItem
+                        key={q.id}
+                        question={q}
+                        deleteById={deleteQuestionById}
+                        saveQuestion={saveQuestion}
+                    />
                 ))}
             </ul>
         </div>
