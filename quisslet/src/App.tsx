@@ -58,5 +58,11 @@ function App() {
 }
 
 export default App;
-export const QuizContext = createContext();
+export const QuizContext = createContext<{
+    quizes: Quiz[];
+    setQuizes: React.Dispatch<React.SetStateAction<Quiz[]>>;
+}>({
+    quizes: [],
+    setQuizes: () => {},
+});
 export type { Quiz, Question, Alternative };
