@@ -14,7 +14,7 @@ const QuizBuilderPage: React.FC = () => {
 
     const [title, setTitle] = useState({ title: quiz.title, edit: false });
     const [question, setQuestion] = useState("");
-    const [questions, setQuestions] = useState([]);
+    const [questions, setQuestions] = useState<Question[]>(quiz.questions);
 
     const saveTitleHandler = (
         event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
@@ -30,11 +30,24 @@ const QuizBuilderPage: React.FC = () => {
 
     const addQuestionHandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (question.trim() === "") return;
+        const newQuestion: Question = {
+            id: 1,
+            text: question,
+            alternatives: [],
+        };
+        setQuestions([...questions, newQuestion]);
+        setQuestion("");
+
+        quiz.questions = [...questions, newQuestion];
+        const newQuizes = [...quizes];
+        newQuizes[index] = { ...quiz };
+        setQuizes(newQuizes);
     };
 
     return (
         <div className="border border-secondary shadow p-2 m-0">
-            <div className="border border-secondary shadow d-flex justify-content-around align-items-center p-2 m-2">
+            <div className="border border-secondary shadow d-flex justify-content-between align-items-center p-2 m-2">
                 {title.edit ? (
                     <form className="form-floating" onSubmit={saveTitleHandler}>
                         <input
@@ -44,7 +57,6 @@ const QuizBuilderPage: React.FC = () => {
                             value={title.title}
                             required
                             placeholder="Name"
-                            maxLength={20}
                             onChange={(event) => {
                                 setTitle({
                                     ...title,
@@ -85,6 +97,11 @@ const QuizBuilderPage: React.FC = () => {
                 setQuestion={setQuestion}
                 addQuestionHandler={addQuestionHandler}
             />
+            <ul>
+                {questions.map((q, i) => (
+                    <li key={i}>{q.text}</li>
+                ))}
+            </ul>
         </div>
     );
 };

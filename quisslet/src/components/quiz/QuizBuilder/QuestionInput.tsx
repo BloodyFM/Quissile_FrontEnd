@@ -12,13 +12,13 @@ const QuestionInput: React.FC<Props> = ({
     addQuestionHandler,
 }) => {
     return (
-        <div className="border border-secondary shadow d-flex justify-content-around align-items-center p-2 m-2">
+        <div className="border border-secondary shadow p-2 m-2">
             <form
-                className="form-floating d-flex justify-content-around"
+                className="form-floating d-flex justify-content-between gap-2 w-100"
                 onSubmit={addQuestionHandler}
             >
                 <input
-                    className="form-control rounded-1 border-primary"
+                    className="form-control rounded-1 border-primary w-100"
                     type="text"
                     id="name"
                     value={question}
@@ -30,7 +30,7 @@ const QuestionInput: React.FC<Props> = ({
                     }}
                 />
                 <label className="form-label text-secondary">Question</label>
-                <button type="submit">Add</button>
+                <button type="submit" className="btn btn-info">Add</button>
             </form>
         </div>
     );
