@@ -1,42 +1,13 @@
-import { useState } from "react";
-import QuizModal from "../layout/menu/QuizModal";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { Quiz, QuizContext } from "../../App";
 
 interface Props {}
 
-interface Alternative {
-    id: number;
-    text: string;
-    isAnswer: boolean;
-}
-interface Question {
-    id: number;
-    text: string;
-    alternatives: Alternative[];
-}
-interface Quiz {
-    id: number;
-    title: string;
-    questions: Question[];
-}
-
 const QuizPage: React.FC<Props> = () => {
-    const initData: Quiz[] = [
-        {
-            id: 1,
-            title: "First quiz",
-            questions: [],
-        },
-        {
-            id: 2,
-            title: "Another quiz",
-            questions: [],
-        },
-    ];
     const [showModal, setShowModal] = useState(false);
     const [name, setName] = useState("");
-
-    const [quizes, setQuizes] = useState(initData);
+    const { quizes, setQuizes } = useContext(QuizContext);
 
     const addQuizHandler = (event: { preventDefault: () => void }) => {
         event.preventDefault();
