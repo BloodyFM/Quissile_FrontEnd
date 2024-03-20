@@ -3,14 +3,15 @@ import { Alternative, Question } from "../../../App";
 
 interface Props {
     question: Question;
+    saveQuestion: (question: Question) => void;
 }
 
-const QuestionFormFull: React.FC<Props> = ({ question }) => {
+const QuestionFormFull: React.FC<Props> = ({ question, saveQuestion }) => {
     const [q, setQ] = useState(question);
 
     const saveHandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log("This is where the code should save to db");
+        saveQuestion({ ...q });
     };
 
     return (

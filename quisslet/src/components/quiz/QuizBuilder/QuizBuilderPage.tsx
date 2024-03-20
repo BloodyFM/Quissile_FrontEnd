@@ -9,7 +9,8 @@ const QuizBuilderPage: React.FC = () => {
 
     const idNumber: number | undefined = id ? parseInt(id) : undefined;
 
-    const { quizes, setQuizes } = useContext(QuizContext);
+    const { quizes, setQuizes, questions, setQuestions } =
+        useContext(QuizContext);
     const index = quizes.findIndex((q) => q.id === idNumber);
     const quiz = { ...quizes[index] };
 
@@ -36,7 +37,7 @@ const QuizBuilderPage: React.FC = () => {
         if (question.trim() === "") return;
         const newQuestion: Question = {
             quiz_id: quiz.id,
-            id: 1,
+            id: Math.max(...questions.map((q) => q.id)) + 1,
             text: question,
             alternatives: [],
         };
@@ -47,6 +48,28 @@ const QuizBuilderPage: React.FC = () => {
         const newQuizes = [...quizes];
         newQuizes[index] = { ...quiz };
         setQuizes(newQuizes);
+        setQuestions([...questions, newQuestion]);
+        console.log(questions);
+    };
+
+    const saveQuestionHandler = (newQuestion: Question) => {
+        console.log("saveQuestionHandler");
+
+        let newQuestions = [...questions];
+        const questionIndex = questions.findIndex(
+            (q) => q.id === newQuestion.id
+        );
+        newQuestions[questionIndex] = newQuestion;
+        setQuestions([...newQuestions]); // update questions state
+
+        newQuestions = newQuestions.filter((q) => q.quiz_id === quiz.id);
+        const newQuiz = { ...quiz, questions: newQuestions };
+        const newQuizes = [...quizes];
+        const quizIndex = newQuizes.findIndex((q) => q.id === quiz.id);
+        newQuizes[quizIndex] = newQuiz;
+        setQuizes(newQuizes); // update quizes state
+
+        console.log(questions);
     };
 
     return (
@@ -103,7 +126,14 @@ const QuizBuilderPage: React.FC = () => {
             />
             <ul className="list-group m-2">
                 {quizQuestions.map((q) => (
-                    <QuestionFormFull key={q.id} question={q} />
+                    <QuestionFormFull
+                        key={q.id}
+                        question={{ ...q }}
+                        saveQuestion={saveQuestionHandler}
+                    />
+                ))}
+                {quizQuestions.map((q, i) => (
+                    <p key={i}>{q.id}</p>
                 ))}
             </ul>
         </div>
