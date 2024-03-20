@@ -32,7 +32,10 @@ const MainMenu: React.FC<Props> = () => {
                             "nav-item d-flex align-items-center p-2 h-100"
                         }
                     >
-                        <Link className={`text-light ${homeActive}`} to={"/"}>
+                        <Link
+                            className={`text-light hide-on-print ${homeActive}`}
+                            to={"/"}
+                        >
                             Home
                         </Link>
                     </li>
@@ -42,7 +45,7 @@ const MainMenu: React.FC<Props> = () => {
                         }
                     >
                         <Link
-                            className={`text-light ${quizActive}`}
+                            className={`text-light hide-on-print ${quizActive}`}
                             to={"/quiz/"}
                         >
                             Quizes
@@ -54,7 +57,7 @@ const MainMenu: React.FC<Props> = () => {
                         }
                     >
                         <Link
-                            className={`text-light ${questionActive}`}
+                            className={`text-light hide-on-print ${questionActive}`}
                             to={"/question/"}
                         >
                             Questions

@@ -18,7 +18,7 @@ const QuizViewPage: React.FC = () => {
         <div className="border border-secondary shadow p-2 m-0">
             <h2 className="m-5">{quiz.title}</h2>
             <button
-                className="btn btn-warning"
+                className="btn btn-warning hide-on-print"
                 onClick={() => {
                     setShowAnswers(!showAnswers);
                 }}
