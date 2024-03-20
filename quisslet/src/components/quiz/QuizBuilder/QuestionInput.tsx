@@ -1,4 +1,5 @@
-import { FormEvent } from "react";
+import { FormEvent, useContext } from "react";
+import { QuizContext } from "../../../App";
 
 interface Props {
     question: string;
@@ -11,6 +12,11 @@ const QuestionInput: React.FC<Props> = ({
     setQuestion,
     addQuestionHandler,
 }) => {
+    const { questions } = useContext(QuizContext);
+    const filteredQuestions = questions.filter((question, index, self) => {
+        // Keep only the first occurrence of each string
+        return self.findIndex((q) => q.text === question.text) === index;
+    });
     return (
         <div className="border border-secondary shadow p-2 m-2">
             <form
@@ -23,13 +29,21 @@ const QuestionInput: React.FC<Props> = ({
                     id="question"
                     value={question}
                     required
+                    list="options"
                     placeholder="Question"
                     onChange={(event) => {
                         setQuestion(event.target.value);
                     }}
                 />
                 <label className="form-label text-secondary">Question</label>
-                <button type="submit" className="btn btn-info">Add</button>
+                <datalist id="options">
+                    {filteredQuestions.map((question) => (
+                        <option value={question.text} />
+                    ))}
+                </datalist>
+                <button type="submit" className="btn btn-info">
+                    Add
+                </button>
             </form>
         </div>
     );
