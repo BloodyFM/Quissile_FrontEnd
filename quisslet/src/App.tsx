@@ -8,7 +8,7 @@ import QuizBuilderPage from "./components/quiz/QuizBuilder/QuizBuilderPage";
 import QuizViewPage from "./components/quiz/QuizView/QuizViewPage";
 import { createContext, useEffect, useState } from "react";
 import QuestionPage from "./components/questions/QuestionPage";
-import { getQuestions, getQuizes, updateTitle } from "./helpers/http";
+import { deleteQuizById, getQuestions, getQuizes, updateTitle } from "./helpers/http";
 
 interface Alternative {
     id: number;
@@ -102,6 +102,9 @@ function App() {
     }
     const updateQuizTitle = async (id: number, title: string) => {
         await updateTitle(id, title)
+    }
+    const deleteQuiz = async (id:number) => {
+        await deleteQuizById(id)
     }
 
     return (
