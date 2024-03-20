@@ -20,11 +20,10 @@ const QuestionInput: React.FC<Props> = ({
                 <input
                     className="form-control rounded-1 border-primary w-100"
                     type="text"
-                    id="name"
+                    id="question"
                     value={question}
                     required
-                    placeholder="Name"
-                    maxLength={20}
+                    placeholder="Question"
                     onChange={(event) => {
                         setQuestion(event.target.value);
                     }}

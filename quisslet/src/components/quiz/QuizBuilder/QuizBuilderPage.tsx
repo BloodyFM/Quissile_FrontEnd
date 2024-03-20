@@ -35,6 +35,7 @@ const QuizBuilderPage: React.FC = () => {
         event.preventDefault();
         if (question.trim() === "") return;
         const newQuestion: Question = {
+            quiz_id: quiz.id,
             id: 1,
             text: question,
             alternatives: [],
@@ -100,7 +101,7 @@ const QuizBuilderPage: React.FC = () => {
                 setQuestion={setQuestion}
                 addQuestionHandler={addQuestionHandler}
             />
-            <ul>
+            <ul className="list-group m-2">
                 {quizQuestions.map((q) => (
                     <QuestionFormFull key={q.id} question={q} />
                 ))}
