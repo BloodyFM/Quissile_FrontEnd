@@ -25,6 +25,15 @@ export const getQuestions = async () => {
     })
 }
 
+export const getQuestion = async (id:number) => {
+    return await fetch(`https://localhost:7067/questions/${id}`, {method: "GET"})
+    .then((res) => {
+        return res.json()
+    }).catch((error: string) => {
+        console.error("error fetching question", error)
+    })
+}
+
 export const addQuestion = async (text: string) => {
     return await fetch("https://localhost:7067/questions", 
     {method: "POST",
@@ -33,10 +42,43 @@ export const addQuestion = async (text: string) => {
     },
     body: JSON.stringify({text: text})})
     .then((res) => {
+        if (!res.ok){
+            throw new Error("Network response is not ok")
+        }
         return res.json()
     })
     .catch((error: string) => {
         console.error("error adding question", error)
+    })
+}
+
+export const updateQuestion = async (id: number, text:string) => {
+    return await fetch(`https://localhost:7067/questions/${id}`, 
+    {method: "PUT",
+    headers: {
+        "Content-Type":"application/json"
+    },
+    body: JSON.stringify({text: text})
+    })
+    .then((res) => {
+        return res.json()
+    }).catch((error: string) => {
+        console.error("error updating question", error)
+    })
+}
+
+export const addQuestionToQuiz = async (id: number, text: string, quizId: number) => {
+    return await fetch(`https://localhost:7067/questions/${id}`, 
+    {method: "PUT",
+    headers: {
+        "Content-Type":"application/json"
+    },
+    body: JSON.stringify({text: text, quizId: quizId})
+    })
+    .then((res) => {
+        return res.json()
+    }).catch((error: string) => {
+        console.error("error updating question", error)
     })
 }
 
@@ -84,6 +126,15 @@ export const deleteQuizById = async (id: number) => {
         return res.json()
     }).catch((error: string) => {
         console.error("error deleting quiz", error)
+    })
+}
+
+export const deleteQuestion = async (id: number) => {
+    return await fetch(`https://localhost:7067/questions/${id}`, {method: "DELETE"})
+    .then((res) => {
+        return res.json()
+    }).catch((error: string) => {
+        console.error("error deleting question", error)
     })
 }
 
