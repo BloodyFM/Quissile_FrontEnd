@@ -8,7 +8,7 @@ import QuizBuilderPage from "./components/quiz/QuizBuilder/QuizBuilderPage";
 import QuizViewPage from "./components/quiz/QuizView/QuizViewPage";
 import { createContext, useEffect, useState } from "react";
 import QuestionPage from "./components/questions/QuestionPage";
-import { deleteQuizById, getQuestions, getQuizes, updateTitle } from "./helpers/http";
+import { deleteQuizById, getQuestions, getQuizes, updateTitle, addQuiz } from "./helpers/http";
 
 interface Alternative {
     id: number;
