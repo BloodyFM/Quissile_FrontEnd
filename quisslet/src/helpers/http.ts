@@ -25,21 +25,28 @@ export const getQuestions = async () => {
     })
 }
 
+export const updateTitle = async (id:number, title:string) => {
+    return await fetch(`https://localhost:7067/quiz/${id}`, 
+    {method: "PUT",
+    headers: {
+        "Content-Type": "application/json" 
+    },
+    body: JSON.stringify({title: title})
+    })
+    .then((res) => {
+        if (!res.ok){
+            throw new Error("Network response is not ok")
+        }
+        return res.json()
+    })
+    .catch((error) => {
+        console.error("error updating quiz title", error)
+    })
+}
+
 /*
 
-    useEffect(() => {
-        fetchQuizData()
-        fetchQuestionData()
-    }, [])
 
-    const fetchQuizData = async () => {
-        const data = await getQuizes()
-        setQuizes(data.data)
-    }
-    const fetchQuestionData = async () => {
-        const data = await getQuestions()
-        setQuestions(data.data)
-    }
 
     */
 
