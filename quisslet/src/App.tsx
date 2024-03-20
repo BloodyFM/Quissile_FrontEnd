@@ -15,6 +15,7 @@ interface Alternative {
     isAnswer: boolean;
 }
 interface Question {
+    quiz_id: number | null;
     id: number;
     text: string;
     alternatives: Alternative[];
@@ -27,6 +28,7 @@ interface Quiz {
 
 const initQuestionData: Question[] = [
     {
+        quiz_id: 1,
         id: 1,
         text: "What is the title of the first book in the bestsellig series The Horus Heresy?",
         alternatives: [
@@ -43,8 +45,26 @@ const initQuestionData: Question[] = [
         ],
     },
     {
+        quiz_id: 1,
         id: 2,
-        text: "Question 2",
+        text: "Did Magnus derserve it?",
+        alternatives: [
+            {
+                id: 3,
+                text: "Yes",
+                isAnswer: true,
+            },
+            {
+                id: 4,
+                text: "No",
+                isAnswer: false,
+            },
+        ],
+    },
+    {
+        quiz_id: null,
+        id: 3,
+        text: "Question 3",
         alternatives: [],
     },
 ];
@@ -53,7 +73,7 @@ const initQuizData: Quiz[] = [
     {
         id: 1,
         title: "First quiz",
-        questions: [],
+        questions: [{ ...initQuestionData[0] }, { ...initQuestionData[1] }],
     },
     {
         id: 2,

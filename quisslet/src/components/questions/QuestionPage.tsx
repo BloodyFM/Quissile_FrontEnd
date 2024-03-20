@@ -6,11 +6,15 @@ import QuestionItem from "./QuestionItem";
 const QuestionPage: React.FC = () => {
     const { questions, setQuestions } = useContext(QuizContext);
     const [question, setQuestion] = useState("");
+    const unusedQuestions: Question[] = questions.filter(
+        (q) => q.quiz_id === null
+    );
 
     const addQuestionHandler = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const newQuestion: Question = {
+            quiz_id: null,
             id: Math.max(...questions.map((x) => x.id)) + 1,
             text: question,
             alternatives: [],
@@ -41,7 +45,7 @@ const QuestionPage: React.FC = () => {
                 addQuestionHandler={addQuestionHandler}
             />
             <ul className="list-group m-3">
-                {questions.map((q) => (
+                {unusedQuestions.map((q) => (
                     <QuestionItem
                         key={q.id}
                         question={q}

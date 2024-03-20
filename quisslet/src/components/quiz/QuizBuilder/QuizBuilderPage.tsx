@@ -2,6 +2,7 @@ import { FormEvent, MouseEvent, useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Question, QuizContext } from "../../../App";
 import QuestionInput from "./QuestionInput";
+import QuestionFormFull from "./QuestionFormFull";
 
 const QuizBuilderPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -14,7 +15,9 @@ const QuizBuilderPage: React.FC = () => {
 
     const [title, setTitle] = useState({ title: quiz.title, edit: false });
     const [question, setQuestion] = useState("");
-    const [questions, setQuestions] = useState<Question[]>(quiz.questions);
+    const [quizQuestions, setQuizQuestions] = useState<Question[]>(
+        quiz.questions
+    );
 
     const saveTitleHandler = (
         event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
@@ -36,10 +39,10 @@ const QuizBuilderPage: React.FC = () => {
             text: question,
             alternatives: [],
         };
-        setQuestions([...questions, newQuestion]);
+        setQuizQuestions([...quizQuestions, newQuestion]);
         setQuestion("");
 
-        quiz.questions = [...questions, newQuestion];
+        quiz.questions = [...quizQuestions, newQuestion];
         const newQuizes = [...quizes];
         newQuizes[index] = { ...quiz };
         setQuizes(newQuizes);
@@ -98,8 +101,8 @@ const QuizBuilderPage: React.FC = () => {
                 addQuestionHandler={addQuestionHandler}
             />
             <ul>
-                {questions.map((q, i) => (
-                    <li key={i}>{q.text}</li>
+                {quizQuestions.map((q) => (
+                    <QuestionFormFull key={q.id} question={q} />
                 ))}
             </ul>
         </div>
