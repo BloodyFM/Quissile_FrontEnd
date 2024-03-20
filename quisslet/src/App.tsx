@@ -6,8 +6,9 @@ import HomePage from "./components/home/HomePage";
 import QuizPage from "./components/quiz/QuizPage";
 import QuizBuilderPage from "./components/quiz/QuizBuilder/QuizBuilderPage";
 import QuizViewPage from "./components/quiz/QuizView/QuizViewPage";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import QuestionPage from "./components/questions/QuestionPage";
+import { getQuestions, getQuizes, updateTitle } from "./helpers/http";
 
 interface Alternative {
     id: number;
@@ -85,6 +86,23 @@ const initQuizData: Quiz[] = [
 function App() {
     const [quizes, setQuizes] = useState(initQuizData);
     const [questions, setQuestions] = useState(initQuestionData);
+
+    useEffect(() => {
+        fetchQuizData()
+        fetchQuestionData()
+    }, [])
+
+    const fetchQuizData = async () => {
+        const data = await getQuizes()
+        setQuizes(data.data)
+    }
+    const fetchQuestionData = async () => {
+        const data = await getQuestions()
+        setQuestions(data.data)
+    }
+    const updateQuizTitle = async (id: number, title: string) => {
+        await updateTitle(id, title)
+    }
 
     return (
         <QuizContext.Provider
