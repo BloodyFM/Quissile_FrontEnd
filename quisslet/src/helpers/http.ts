@@ -44,6 +44,15 @@ export const updateTitle = async (id:number, title:string) => {
     })
 }
 
+export const deleteQuizById = async (id: number) => {
+    return await fetch(`https://localhost:7067/quiz/${id}`, {method: "DELETE"})
+    .then((res) => {
+        return res.json()
+    }).catch((error: string) => {
+        console.error("error deleting quiz", error)
+    })
+}
+
 /*
 
 
