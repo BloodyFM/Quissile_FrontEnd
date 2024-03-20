@@ -25,15 +25,11 @@ const QuizViewPage: React.FC = () => {
             >
                 {showAnswers ? "Hide Answers" : "Show Answers"}
             </button>
-            <ul>
-                {quiz.questions.map((q, i) => (
-                    <QuizViewQuestion
-                        question={q}
-                        index={i}
-                        showAnswers={showAnswers}
-                    />
+            <ol type="1">
+                {quiz.questions.map((q) => (
+                    <QuizViewQuestion question={q} showAnswers={showAnswers} />
                 ))}
-            </ul>
+            </ol>
         </div>
     );
 };

@@ -2,15 +2,10 @@ import { Question } from "../../../App";
 
 interface Props {
     question: Question;
-    index: number;
     showAnswers: boolean;
 }
 
-const QuizViewQuestion: React.FC<Props> = ({
-    question,
-    index,
-    showAnswers,
-}) => {
+const QuizViewQuestion: React.FC<Props> = ({ question, showAnswers }) => {
     let wrongAlternatives = 0;
     for (let i = 0; i < question.alternatives.length; i++) {
         if (!question.alternatives[i].isAnswer) wrongAlternatives++;
@@ -22,20 +17,20 @@ const QuizViewQuestion: React.FC<Props> = ({
 
     return (
         <li className="m-3">
-            <p>{index + 1 + ") " + question.text}</p>
+            <p>{question.text}</p>
             {canShow && (
-                <ul>
+                <ol type="A">
                     {question.alternatives.map((a) => (
                         <li>{a.text}</li>
                     ))}
-                </ul>
+                </ol>
             )}
             {showAnswers && (
-                <ul>
+                <ol type="A">
                     {question.alternatives.map((a) => (
                         <li>{a.isAnswer ? a.text + " (answer)" : a.text}</li>
                     ))}
-                </ul>
+                </ol>
             )}
         </li>
     );
