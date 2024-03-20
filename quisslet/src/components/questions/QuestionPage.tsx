@@ -2,6 +2,7 @@ import { FormEvent, useContext, useState } from "react";
 import QuestionInput from "../quiz/QuizBuilder/QuestionInput";
 import { Question, QuizContext } from "../../App";
 import QuestionItem from "./QuestionItem";
+import { addQuestion } from "../../helpers/http";
 
 const QuestionPage: React.FC = () => {
     const { questions, setQuestions } = useContext(QuizContext);
@@ -19,7 +20,8 @@ const QuestionPage: React.FC = () => {
             text: question,
             alternatives: [],
         };
-
+        const res = addQuestion(newQuestion.text)
+        console.log(res)
         setQuestions([...questions, newQuestion]);
         setQuestion("");
     };

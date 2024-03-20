@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Quiz, QuizContext } from "../../App";
+import { addQuiz, deleteQuizById } from "../../helpers/http";
 
 interface Props {}
 
@@ -17,16 +18,17 @@ const QuizPage: React.FC<Props> = () => {
             title: name,
             questions: [],
         };
+        // http req
+        addQuiz(newQuiz.title)
         setQuizes([...quizes, newQuiz]);
         setName("");
         setShowModal(false);
     };
 
     const removeQuizHandler = (id: number) => {
-        console.log("hello!");
         const newQuizes = quizes.filter((q) => q.id !== id);
-        console.log(id);
-        console.log(newQuizes);
+        // http req
+        deleteQuizById(id)
         setQuizes([...newQuizes]);
     };
 
