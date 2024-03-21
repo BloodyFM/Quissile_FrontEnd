@@ -46,7 +46,7 @@ const QuestionFormFull: React.FC<Props> = ({
     return (
         <li className="list-group-item p-2">
             <form className="w-100" onSubmit={saveHandler}>
-                <div className="form-floating">
+                <div className="form-floating d-flex gap-2">
                     <input
                         className="form-control rounded-1 border-primary w-100"
                         type="text"
