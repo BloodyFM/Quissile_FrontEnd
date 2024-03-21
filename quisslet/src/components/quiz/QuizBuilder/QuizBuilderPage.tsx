@@ -54,8 +54,8 @@ const QuizBuilderPage: React.FC = () => {
         };
 
         // add quizid to question
-        const updateQuestion = await addQuestionToQuiz(newQuestion.id, newQuestion.text, quiz.id)
-        console.log(updateQuestion)
+        await addQuestionToQuiz(newQuestion.id, newQuestion.text, quiz.id)
+      
         setQuizQuestions([...quizQuestions, newQuestion]);
         setQuestion("");
 
@@ -64,7 +64,7 @@ const QuizBuilderPage: React.FC = () => {
         newQuizes[index] = { ...quiz };
         setQuizes(newQuizes);
         setQuestions([...questions, newQuestion]);
-        console.log(questions);
+
     };
 
     const saveQuestionHandler = (newQuestion: Question) => {
