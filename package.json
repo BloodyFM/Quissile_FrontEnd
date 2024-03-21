@@ -1,0 +1,11 @@
+{
+  "name": "quissile_frontend",
+  "version": "1.0.0",
+  "description": "Frontend for quizzile",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd quisslet && npm run build"
+  },
+  "author": "",
+  "license": "ISC"
+}
