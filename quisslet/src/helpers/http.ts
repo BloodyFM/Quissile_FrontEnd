@@ -1,5 +1,7 @@
+import { Alternative, Quiz } from "../App"
+
 export const getQuizes = async () => {
-    return await fetch("https://localhost:7067/quiz", {method: "GET"})
+    return await fetch("https://localhost:7067/quizes", {method: "GET"})
     .then((res) => {
         return res.json()
     }).catch((error: string) => {
@@ -8,7 +10,7 @@ export const getQuizes = async () => {
 } 
 
 export const getQuiz = async (id: number) => {
-    return await fetch(`https://localhost:7067/quiz/${id}`, {method: "GET"})
+    return await fetch(`https://localhost:7067/quizes/${id}`, {method: "GET"})
     .then((res) => {
         return res.json()
     }).catch((error: string) => {
@@ -83,7 +85,7 @@ export const addQuestionToQuiz = async (id: number, text: string, quizId: number
 }
 
 export const addQuiz = async (title: string) => {
-    return await fetch("https://localhost:7067/quiz", 
+    return await fetch("https://localhost:7067/quizes", 
     {method: "POST",
     headers: {
         "Content-Type":"application/json"
@@ -102,7 +104,7 @@ export const addQuiz = async (title: string) => {
 } 
 
 export const updateTitle = async (id:number, title:string) => {
-    return await fetch(`https://localhost:7067/quiz/${id}`, 
+    return await fetch(`https://localhost:7067/quizes/${id}`, 
     {method: "PUT",
     headers: {
         "Content-Type": "application/json" 
@@ -121,7 +123,7 @@ export const updateTitle = async (id:number, title:string) => {
 }
 
 export const deleteQuizById = async (id: number) => {
-    return await fetch(`https://localhost:7067/quiz/${id}`, {method: "DELETE"})
+    return await fetch(`https://localhost:7067/quizes/${id}`, {method: "DELETE"})
     .then((res) => {
         return res.json()
     }).catch((error: string) => {
@@ -138,5 +140,32 @@ export const deleteQuestion = async (id: number) => {
     })
 }
 
+export const deleteAlternative = async (alternativeId: number) => {
+    return await fetch(`https://localhost:7067/alternatives/${alternativeId}`, {method: "DELETE"})
+    .then((res) => {
+        return res.json()
+    }).catch((error: string) => {
+        console.error("Error deleting alternative: ", error)
+    })
+}
+
+export const updateQuestionAlternatives = async (questionId: number, quizId: number | null, alternatives: Alternative[]) => {
+    const body = {
+        quizId: quizId,
+        text: "",
+        alternatives
+    }
+    return await fetch(`https://localhost:7067/questions/${questionId}`, 
+    {method: "PUT", 
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+    }).then((res) => {
+        return res.json()
+    }).catch((error: string) => {
+        console.error("error updating alternatives in question", error)
+    })
+}
 
 

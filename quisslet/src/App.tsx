@@ -11,7 +11,7 @@ import QuestionPage from "./components/questions/QuestionPage";
 import { deleteQuizById, getQuestions, getQuizes, updateTitle, addQuiz } from "./helpers/http";
 
 interface Alternative {
-    id: number;
+    id?: number;
     text: string;
     isAnswer: boolean;
 }

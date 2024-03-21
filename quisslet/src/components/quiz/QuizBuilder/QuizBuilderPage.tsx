@@ -13,7 +13,12 @@ const QuizBuilderPage: React.FC = () => {
     const { quizes, setQuizes, questions, setQuestions } =
         useContext(QuizContext);
     const index = quizes.findIndex((q) => q.id === idNumber);
-    const quiz = { ...quizes[index] };
+    let quiz = { ...quizes[index] };
+    if(index === -1) quiz = {
+        id: -1,
+        title: "loading",
+        questions: [],
+    }
 
     const [title, setTitle] = useState({ title: quiz.title, edit: false });
     const [question, setQuestion] = useState("");
@@ -23,7 +28,7 @@ const QuizBuilderPage: React.FC = () => {
 
     useEffect(() => {
         setQuizQuestions([...quiz.questions])
-    },[quiz])
+    },[quiz.questions])
 
     const saveTitleHandler = (
         event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
@@ -82,8 +87,6 @@ const QuizBuilderPage: React.FC = () => {
         const quizIndex = newQuizes.findIndex((q) => q.id === quiz.id);
         newQuizes[quizIndex] = newQuiz;
         setQuizes(newQuizes); // update quizes state
-
-        console.log(questions);
     };
 
     return (
