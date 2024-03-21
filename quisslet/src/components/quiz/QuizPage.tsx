@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Quiz, QuizContext } from "../../App";
 import { addQuiz, deleteQuizById } from "../../helpers/http";
+import QuizItem from "./QuizItem";
 
 interface Props {}
 
@@ -19,7 +20,7 @@ const QuizPage: React.FC<Props> = () => {
             questions: [],
         };
         // http req
-        addQuiz(newQuiz.title)
+        addQuiz(newQuiz.title);
         setQuizes([...quizes, newQuiz]);
         setName("");
         setShowInput(false);
@@ -28,7 +29,7 @@ const QuizPage: React.FC<Props> = () => {
     const removeQuizHandler = (id: number) => {
         const newQuizes = quizes.filter((q) => q.id !== id);
         // http req
-        deleteQuizById(id)
+        deleteQuizById(id);
         setQuizes([...newQuizes]);
     };
 
@@ -68,23 +69,11 @@ const QuizPage: React.FC<Props> = () => {
                 ) : (
                     <ul className="list-group m-3">
                         {quizes.map((quiz) => (
-                            <li
-                                className="list-group-item d-flex justify-content-evenly align-items-center"
+                            <QuizItem
                                 key={quiz.id}
-                            >
-                                <Link to={"/quiz/" + quiz.id}>
-                                    {quiz.title}
-                                </Link>
-                                <Link to={"/quiz/edit/" + quiz.id}>Edit</Link>
-                                <button
-                                    className="btn btn-warning"
-                                    onClick={() => {
-                                        removeQuizHandler(quiz.id);
-                                    }}
-                                >
-                                    Delete
-                                </button>
-                            </li>
+                                quiz={quiz}
+                                handleRemove={removeQuizHandler}
+                            />
                         ))}
                     </ul>
                 )}
