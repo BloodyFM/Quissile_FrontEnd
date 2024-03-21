@@ -1,31 +1,47 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Alternative, Question } from "../../../App";
-import { deleteAlternative, updateQuestion, updateQuestionAlternatives } from "../../../helpers/http";
+import {
+    deleteAlternative,
+    updateQuestion,
+    updateQuestionAlternatives,
+} from "../../../helpers/http";
 
 interface Props {
     question: Question;
     saveQuestion: (question: Question) => void;
+    deleteQuestion: (question: Question) => void;
 }
 
-const QuestionFormFull: React.FC<Props> = ({ question, saveQuestion }) => {
+const QuestionFormFull: React.FC<Props> = ({
+    question,
+    saveQuestion,
+    deleteQuestion,
+}) => {
     const [q, setQ] = useState(question);
 
     const saveHandler = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!q.alternatives){
-            const questionResponse = await updateQuestion(q.id, q.text)
-            setQ(questionResponse)
-            saveQuestion(questionResponse)
+        if (!q.alternatives) {
+            const questionResponse = await updateQuestion(q.id, q.text);
+            setQ(questionResponse);
+            saveQuestion(questionResponse);
         }
-        const res = await updateQuestionAlternatives(q.id, q.text, q.quizId, q.alternatives)
-        setQ({ ...q, alternatives: res.data.alternatives})
+        const res = await updateQuestionAlternatives(
+            q.id,
+            q.text,
+            q.quizId,
+            q.alternatives
+        );
+        setQ({ ...q, alternatives: res.data.alternatives });
         saveQuestion({ ...q, alternatives: res.data.alternatives });
-    };   
-    
-    useEffect(() => {
+    };
 
-    }, [q])
+    const RemoveHandler = async () => {
+        console.log("remove Question");
+        deleteQuestion(q);
+    };
 
+    useEffect(() => {}, [q]);
 
     return (
         <li className="list-group-item p-2">
@@ -45,6 +61,9 @@ const QuestionFormFull: React.FC<Props> = ({ question, saveQuestion }) => {
                     <label className="form-label text-secondary">
                         Question
                     </label>
+                    <button className="btn btn-warning" onClick={RemoveHandler}>
+                        Remove
+                    </button>
                 </div>
                 <button
                     type="button"
@@ -109,10 +128,9 @@ const QuestionFormFull: React.FC<Props> = ({ question, saveQuestion }) => {
                             onClick={() => {
                                 const newAlternatives = q.alternatives.filter(
                                     (a) => a.id !== alternative.id
-                                    
                                 );
-                                if (alternative.id){
-                                    deleteAlternative(alternative.id)
+                                if (alternative.id) {
+                                    deleteAlternative(alternative.id);
                                 }
                                 setQ({
                                     ...q,
