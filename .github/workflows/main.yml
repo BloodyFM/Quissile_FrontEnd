@@ -10,4 +10,3 @@ jobs:
     steps:
       - name: Curl request
         run: curl -X POST -d {} ${{secrets.NETLIFY_BUILD_HOOK}}
-
