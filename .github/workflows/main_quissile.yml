@@ -59,4 +59,4 @@ jobs:
           app-name: 'Quissile'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1394809D2901403FB2273FA5A761D211 }}
-          package: .
+          package: ./quisslet
