@@ -38,7 +38,7 @@ const QuestionInput: React.FC<Props> = ({
                 <label className="form-label text-secondary">Question</label>
                 <datalist id="options">
                     {filteredQuestions.map((question) => (
-                        <option value={question.text} />
+                        <option key={question.id} value={question.text} />
                     ))}
                 </datalist>
                 <button type="submit" className="btn btn-info">

@@ -3,7 +3,12 @@ import { useParams } from "react-router-dom";
 import { Question, QuizContext } from "../../../App";
 import QuestionInput from "./QuestionInput";
 import QuestionFormFull from "./QuestionFormFull";
-import { addQuestion, addQuestionToQuiz, addQuiz } from "../../../helpers/http";
+import {
+    addQuestion,
+    addQuestionToQuiz,
+    addQuiz,
+    deleteQuestion,
+} from "../../../helpers/http";
 
 const QuizBuilderPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -88,6 +93,25 @@ const QuizBuilderPage: React.FC = () => {
         setQuizes(newQuizes); // update quizes state
     };
 
+    const deleteQuestionHandler = async (questionToDelete: Question) => {
+        const newQuestions = questions.filter(
+            (q) => q.id !== questionToDelete.id
+        );
+        setQuestions([...newQuestions]);
+
+        const newQuizes = [...quizes];
+        const newQuiz = { ...quiz };
+        newQuiz.questions = newQuiz.questions.filter(
+            (q) => q.id !== questionToDelete.id
+        );
+
+        const indexToUpdate = quizes.findIndex((x) => x.id === quiz.id);
+        newQuizes[indexToUpdate] = newQuiz;
+
+        setQuizes(newQuizes);
+        await deleteQuestion(questionToDelete.id);
+    };
+
     return (
         <div className="border border-secondary shadow p-2 m-0">
             <div className="border border-secondary shadow d-flex justify-content-between align-items-center p-2 m-2">
@@ -146,6 +170,7 @@ const QuizBuilderPage: React.FC = () => {
                         key={q.id}
                         question={{ ...q }}
                         saveQuestion={saveQuestionHandler}
+                        deleteQuestion={deleteQuestionHandler}
                     />
                 ))}
             </ul>
