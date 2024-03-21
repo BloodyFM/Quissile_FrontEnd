@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
 import { Quiz, QuizContext } from "../../App";
 import { addQuiz, deleteQuizById } from "../../helpers/http";
 import QuizItem from "./QuizItem";
