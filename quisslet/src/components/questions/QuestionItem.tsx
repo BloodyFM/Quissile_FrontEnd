@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import { Question } from "../../App";
+import { updateQuestion } from "../../helpers/http";
 
 interface Props {
     question: Question;
@@ -15,14 +16,14 @@ const QuestionItem: React.FC<Props> = ({
     const [q, setQ] = useState(question.text);
     const [edit, setEdit] = useState(false);
 
-    const saveQuestionHandler = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault;
+    const saveQuestionHandler = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         if (q.trim() === "") return;
 
         const newQuestion = question;
         newQuestion.text = q;
-        saveQuestion(newQuestion);
-
+        const res = await updateQuestion(question.id, q)
+        saveQuestion(res);
         setEdit(false);
     };
 

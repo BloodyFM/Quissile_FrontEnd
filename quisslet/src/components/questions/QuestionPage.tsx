@@ -2,29 +2,31 @@ import { FormEvent, useContext, useState } from "react";
 import QuestionInput from "../quiz/QuizBuilder/QuestionInput";
 import { Question, QuizContext } from "../../App";
 import QuestionItem from "./QuestionItem";
+import { addQuestion, deleteQuestion, updateQuestion } from "../../helpers/http";
 
 const QuestionPage: React.FC = () => {
     const { questions, setQuestions } = useContext(QuizContext);
     const [question, setQuestion] = useState("");
     const unusedQuestions: Question[] = questions.filter(
-        (q) => q.quiz_id === null
+        (q) => !q.quizId
     );
 
-    const addQuestionHandler = (event: FormEvent<HTMLFormElement>) => {
+    console.log(unusedQuestions)
+
+    const addQuestionHandler = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
+        const res = await addQuestion(question)
         const newQuestion: Question = {
-            quiz_id: null,
-            id: Math.max(...questions.map((x) => x.id)) + 1,
-            text: question,
-            alternatives: [],
+            quizId: res.data.quizId,
+            id: res.data.id,
+            text: res.data.text,
+            alternatives: res.data.alternatives,
         };
-
-        setQuestions([...questions, newQuestion]);
-        setQuestion("");
+        setQuestions([...questions, newQuestion])
     };
 
-    const deleteQuestionById = (id: number) => {
+    const deleteQuestionById = async (id: number) => {
+        await deleteQuestion(id)
         const newQuestions = questions.filter((q) => q.id !== id);
         setQuestions([...newQuestions]);
     };
