@@ -8,7 +8,7 @@ import QuizBuilderPage from "./components/quiz/QuizBuilder/QuizBuilderPage";
 import QuizViewPage from "./components/quiz/QuizView/QuizViewPage";
 import { createContext, useEffect, useState } from "react";
 import QuestionPage from "./components/questions/QuestionPage";
-import { deleteQuizById, getQuestions, getQuizes, updateTitle, addQuiz } from "./helpers/http";
+import { getQuestions, getQuizes } from "./helpers/http";
 
 interface Alternative {
     id?: number;
@@ -16,8 +16,7 @@ interface Alternative {
     isAnswer: boolean;
 }
 interface Question {
-    quizId
-    : number | null;
+    quizId: number | null;
     id: number;
     text: string;
     alternatives: Alternative[];
@@ -30,8 +29,7 @@ interface Quiz {
 
 const initQuestionData: Question[] = [
     {
-        quizId
-        : 1,
+        quizId: 1,
         id: 1,
         text: "What is the title of the first book in the bestsellig series The Horus Heresy?",
         alternatives: [
@@ -48,8 +46,7 @@ const initQuestionData: Question[] = [
         ],
     },
     {
-        quizId
-        : 1,
+        quizId: 1,
         id: 2,
         text: "Did Magnus derserve it?",
         alternatives: [
@@ -66,8 +63,7 @@ const initQuestionData: Question[] = [
         ],
     },
     {
-        quizId
-        : null,
+        quizId: null,
         id: 3,
         text: "Question 3",
         alternatives: [],
@@ -92,18 +88,18 @@ function App() {
     const [questions, setQuestions] = useState(initQuestionData);
 
     useEffect(() => {
-        fetchQuizData()
-        fetchQuestionData()
-    }, [])
+        fetchQuizData();
+        fetchQuestionData();
+    }, []);
 
     const fetchQuizData = async () => {
-        const data = await getQuizes()
-        setQuizes(data.data)
-    }
+        const data = await getQuizes();
+        setQuizes(data.data);
+    };
     const fetchQuestionData = async () => {
-        const data = await getQuestions()
-        setQuestions(data.data)
-    }
+        const data = await getQuestions();
+        setQuestions(data.data);
+    };
 
     return (
         <QuizContext.Provider

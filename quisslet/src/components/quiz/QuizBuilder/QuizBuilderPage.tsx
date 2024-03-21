@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Question, QuizContext } from "../../../App";
 import QuestionInput from "./QuestionInput";
 import QuestionFormFull from "./QuestionFormFull";
-import { addQuestion, addQuestionToQuiz, addQuiz, updateQuestion } from "../../../helpers/http";
+import { addQuestion, addQuestionToQuiz, addQuiz } from "../../../helpers/http";
 
 const QuizBuilderPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -14,11 +14,12 @@ const QuizBuilderPage: React.FC = () => {
         useContext(QuizContext);
     const index = quizes.findIndex((q) => q.id === idNumber);
     let quiz = { ...quizes[index] };
-    if(index === -1) quiz = {
-        id: -1,
-        title: "loading",
-        questions: [],
-    }
+    if (index === -1)
+        quiz = {
+            id: -1,
+            title: "loading",
+            questions: [],
+        };
 
     const [title, setTitle] = useState({ title: quiz.title, edit: false });
     const [question, setQuestion] = useState("");
@@ -27,8 +28,8 @@ const QuizBuilderPage: React.FC = () => {
     );
 
     useEffect(() => {
-        setQuizQuestions([...quiz.questions])
-    },[quiz.questions])
+        setQuizQuestions([...quiz.questions]);
+    }, [quiz.questions]);
 
     const saveTitleHandler = (
         event: MouseEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
@@ -37,7 +38,7 @@ const QuizBuilderPage: React.FC = () => {
         if (title.title.trim() === "") return;
         quiz.title = title.title;
         //http req
-        addQuiz(quiz.title)
+        addQuiz(quiz.title);
         const newQuizes = [...quizes];
         newQuizes[index] = { ...quiz };
         setQuizes(newQuizes);
@@ -47,8 +48,8 @@ const QuizBuilderPage: React.FC = () => {
     const addQuestionHandler = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (question.trim() === "") return;
-        // adding question with no quiz 
-        const questionRes = await addQuestion(question)
+        // adding question with no quiz
+        const questionRes = await addQuestion(question);
 
         // Object for state
         const newQuestion: Question = {
@@ -59,8 +60,8 @@ const QuizBuilderPage: React.FC = () => {
         };
 
         // add quizid to question
-        await addQuestionToQuiz(newQuestion.id, newQuestion.text, quiz.id)
-      
+        await addQuestionToQuiz(newQuestion.id, newQuestion.text, quiz.id);
+
         setQuizQuestions([...quizQuestions, newQuestion]);
         setQuestion("");
 
@@ -69,11 +70,9 @@ const QuizBuilderPage: React.FC = () => {
         newQuizes[index] = { ...quiz };
         setQuizes(newQuizes);
         setQuestions([...questions, newQuestion]);
-
     };
 
     const saveQuestionHandler = (newQuestion: Question) => {
-
         let newQuestions = [...questions];
         const questionIndex = questions.findIndex(
             (q) => q.id === newQuestion.id

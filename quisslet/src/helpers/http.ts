@@ -1,4 +1,4 @@
-import { Alternative, Quiz } from "../App"
+import { Alternative } from "../App"
 
 export const getQuizes = async () => {
     return await fetch("https://localhost:7067/quizes", {method: "GET"})
