@@ -10,3 +10,13 @@
         display: none !important;
     }
 }
+
+.btn-info {
+    background-color: orangered;
+    border-color: orangered;
+}
+
+.btn-info:hover {
+    background-color: orangered;
+    border-color: orangered;
+}
