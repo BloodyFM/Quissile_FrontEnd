@@ -1,5 +1,6 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Alternative, Question } from "../../../App";
+import { deleteAlternative, updateQuestionAlternatives } from "../../../helpers/http";
 
 interface Props {
     question: Question;
@@ -9,10 +10,17 @@ interface Props {
 const QuestionFormFull: React.FC<Props> = ({ question, saveQuestion }) => {
     const [q, setQ] = useState(question);
 
-    const saveHandler = (event: FormEvent<HTMLFormElement>) => {
+    const saveHandler = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        saveQuestion({ ...q });
-    };
+        const res = await updateQuestionAlternatives(q.id, q.quizId, q.alternatives)
+        setQ({ ...q, alternatives: res.data.alternatives})
+        saveQuestion({ ...q, alternatives: res.data.alternatives });
+    };   
+    
+    useEffect(() => {
+
+    }, [q])
+
 
     return (
         <li className="list-group-item p-2">
@@ -39,9 +47,6 @@ const QuestionFormFull: React.FC<Props> = ({ question, saveQuestion }) => {
                     onClick={() => {
                         const newAlternatives = q.alternatives;
                         const newAlternative: Alternative = {
-                            id:
-                                Math.max(...q.alternatives.map((x) => x.id)) +
-                                1,
                             text: "",
                             isAnswer: false,
                         };
@@ -99,7 +104,11 @@ const QuestionFormFull: React.FC<Props> = ({ question, saveQuestion }) => {
                             onClick={() => {
                                 const newAlternatives = q.alternatives.filter(
                                     (a) => a.id !== alternative.id
+                                    
                                 );
+                                if (alternative.id){
+                                    deleteAlternative(alternative.id)
+                                }
                                 setQ({
                                     ...q,
                                     alternatives: newAlternatives,
