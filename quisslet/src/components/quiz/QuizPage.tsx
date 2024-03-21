@@ -5,7 +5,7 @@ import { Quiz, QuizContext } from "../../App";
 interface Props {}
 
 const QuizPage: React.FC<Props> = () => {
-    const [showModal, setShowModal] = useState(false);
+    const [showInput, setShowInput] = useState(false);
     const [name, setName] = useState("");
     const { quizes, setQuizes } = useContext(QuizContext);
 
@@ -19,7 +19,7 @@ const QuizPage: React.FC<Props> = () => {
         };
         setQuizes([...quizes, newQuiz]);
         setName("");
-        setShowModal(false);
+        setShowInput(false);
     };
 
     const removeQuizHandler = (id: number) => {
@@ -36,14 +36,14 @@ const QuizPage: React.FC<Props> = () => {
                 <h2 className="m-5">Quiz Page!</h2>
                 <button
                     onClick={() => {
-                        setShowModal(!showModal);
+                        setShowInput(!showInput);
                     }}
                     className="btn btn-primary m-3"
                 >
-                    {showModal ? "Cancel" : "Add Quiz"}
+                    {showInput ? "Cancel" : "Add Quiz"}
                 </button>
 
-                {showModal ? (
+                {showInput ? (
                     <form onSubmit={addQuizHandler}>
                         <div className="form-floating">
                             <input
