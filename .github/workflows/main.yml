@@ -1,12 +1,19 @@
-name: Trigger Netlify Build
+name: "Deploy"
+
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: closed
+
 jobs:
-  build:
-    name: Request Netlify Webhook
+  deploy:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    name: "Deploy to Netlify"
     steps:
-      - name: Curl request
-        run: curl -X POST -d {} ${{secrets.NETLIFY_BUILD_HOOK}}
+      - uses: actions/checkout@v3
+      - uses: jsmrcaga/action-netlify-deploy@v2.1.0
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.MY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_BUILD_HOOK }}
+          NETLIFY_DEPLOY_TO_PROD: true
+          build_directory: dist
