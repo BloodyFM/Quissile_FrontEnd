@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Alternative, Question } from "../../../App";
-import { deleteAlternative, updateQuestionAlternatives } from "../../../helpers/http";
+import { deleteAlternative, updateQuestion, updateQuestionAlternatives } from "../../../helpers/http";
 
 interface Props {
     question: Question;
@@ -12,7 +12,12 @@ const QuestionFormFull: React.FC<Props> = ({ question, saveQuestion }) => {
 
     const saveHandler = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const res = await updateQuestionAlternatives(q.id, q.quizId, q.alternatives)
+        if (!q.alternatives){
+            const questionResponse = await updateQuestion(q.id, q.text)
+            setQ(questionResponse)
+            saveQuestion(questionResponse)
+        }
+        const res = await updateQuestionAlternatives(q.id, q.text, q.quizId, q.alternatives)
         setQ({ ...q, alternatives: res.data.alternatives})
         saveQuestion({ ...q, alternatives: res.data.alternatives });
     };   

@@ -149,10 +149,10 @@ export const deleteAlternative = async (alternativeId: number) => {
     })
 }
 
-export const updateQuestionAlternatives = async (questionId: number, quizId: number | null, alternatives: Alternative[]) => {
+export const updateQuestionAlternatives = async (questionId: number, text: string, quizId: number | null, alternatives: Alternative[]) => {
     const body = {
         quizId: quizId,
-        text: "",
+        text: text,
         alternatives
     }
     return await fetch(`https://localhost:7067/questions/${questionId}`, 
