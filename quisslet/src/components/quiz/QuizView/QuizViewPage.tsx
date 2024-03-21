@@ -10,8 +10,12 @@ const QuizViewPage: React.FC = () => {
 
     const { quizes } = useContext(QuizContext);
     const index = quizes.findIndex((q) => q.id === idNumber);
-    const quiz = { ...quizes[index] };
-
+    let quiz = { ...quizes[index] };
+    if(index === -1) quiz = {
+        id: -1,
+        title: "loading",
+        questions: [],
+    }
     const [showAnswers, setShowAnswers] = useState(false);
 
     return (
