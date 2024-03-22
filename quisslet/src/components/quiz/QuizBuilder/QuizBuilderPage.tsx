@@ -8,6 +8,7 @@ import {
     addQuestionToQuiz,
     addQuiz,
     deleteQuestion,
+    updateTitle,
 } from "../../../helpers/http";
 
 const QuizBuilderPage: React.FC = () => {
@@ -43,7 +44,7 @@ const QuizBuilderPage: React.FC = () => {
         if (title.title.trim() === "") return;
         quiz.title = title.title;
         //http req
-        addQuiz(quiz.title);
+        updateTitle(quiz.id, quiz.title);
         const newQuizes = [...quizes];
         newQuizes[index] = { ...quiz };
         setQuizes(newQuizes);
