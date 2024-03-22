@@ -21,6 +21,7 @@ const QuestionPage: React.FC = () => {
             alternatives: res.data.alternatives,
         };
         setQuestions([...questions, newQuestion]);
+        setQuestion("");
     };
 
     const deleteQuestionById = async (id: number) => {
